@@ -1,71 +1,190 @@
-﻿// Screen Sound
-Banda racionais = new Banda("Racionais MC's");
+﻿using ScreenSound.Models;
 
-Album albumDoRacionais = new Album("Sobrevivendo no Inferno");
+Banda ira = new Banda("Ira!");
+ira.AdicionarNota(10);
+ira.AdicionarNota(8);
+ira.AdicionarNota(6);
+Banda beatles = new("The Beatles");
 
-Musica musica1 = new Musica("Mágico de Oz", racionais)
+Dictionary<string, Banda> bandasRegistradas = new();
+bandasRegistradas.Add(ira.Nome, ira);
+bandasRegistradas.Add(beatles.Nome, beatles);
+
+void ExibirLogo()
 {
-    Duracao = 213, // Passando argumentos opcionais ao objeto
-    Disponivel = true,
-};
-Musica musica2 = new Musica("Capítulo 4, Versículo 3", racionais)
+    Console.WriteLine(@"
+
+░██████╗░█████╗░██████╗░███████╗███████╗███╗░░██╗  ░██████╗░█████╗░██╗░░░██╗███╗░░██╗██████╗░
+██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝████╗░██║  ██╔════╝██╔══██╗██║░░░██║████╗░██║██╔══██╗
+╚█████╗░██║░░╚═╝██████╔╝█████╗░░█████╗░░██╔██╗██║  ╚█████╗░██║░░██║██║░░░██║██╔██╗██║██║░░██║
+░╚═══██╗██║░░██╗██╔══██╗██╔══╝░░██╔══╝░░██║╚████║  ░╚═══██╗██║░░██║██║░░░██║██║╚████║██║░░██║
+██████╔╝╚█████╔╝██║░░██║███████╗███████╗██║░╚███║  ██████╔╝╚█████╔╝╚██████╔╝██║░╚███║██████╔╝
+╚═════╝░░╚════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚══╝  ╚═════╝░░╚════╝░░╚═════╝░╚═╝░░╚══╝╚═════╝░
+");
+    Console.WriteLine("Boas vindas ao Screen Sound 2.0!");
+}
+
+void ExibirOpcoesDoMenu()
 {
-    Duracao = 354,
-    Disponivel = false,// Passando argumentos opcionais ao objeto (Inicializadores ou Initializers)
-};
+    ExibirLogo();
+    Console.WriteLine("\nDigite 1 para registrar uma banda");
+    Console.WriteLine("Digite 2 para registrar o álbum de uma banda");
+    Console.WriteLine("Digite 3 para mostrar todas as bandas");
+    Console.WriteLine("Digite 4 para avaliar uma banda");
+    Console.WriteLine("Digite 5 para exibir os detalhes de uma banda");
+    Console.WriteLine("Digite -1 para sair");
 
-//albumDoRacionais.AdicionarMusica(musica1);
-//albumDoRacionais.AdicionarMusica(musica2);
+    Console.Write("\nDigite a sua opção: ");
+    string opcaoEscolhida = Console.ReadLine()!;
+    int opcaoEscolhidaNumerica = int.Parse(opcaoEscolhida);
 
-//racionais.AdicionarAlbum(albumDoRacionais);
-//racionais.ExibirDiscografia();
+    switch (opcaoEscolhidaNumerica)
+    {
+        case 1:
+            RegistrarBanda();
+            break;
+        case 2:
+            RegistrarAlbum();
+            break;
+        case 3:
+            MostrarBandasRegistradas();
+            break;
+        case 4:
+            AvaliarUmaBanda();
+            break;
+        case 5:
+            ExibirDetalhes();
+            break;
+        case -1:
+            Console.WriteLine("Tchau tchau :)");
+            break;
+        default:
+            Console.WriteLine("Opção inválida");
+            break;
+    }
+}
 
-// Conta
-//Titular titular = new Titular("Victor", "43476250814", new DateTime(), "989808390");
-//Conta contaBancaria = new Conta("1234", "4321", titular, 10000, "8456", 1000);
-//contaBancaria.ExibirInformacoes();
+void RegistrarAlbum()
+{
+    Console.Clear();
+    ExibirTituloDaOpcao("Registro de álbuns");
+    Console.Write("Digite a banda cujo álbum deseja registrar: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    if (bandasRegistradas.ContainsKey(nomeDaBanda))
+    {
+        Banda banda = bandasRegistradas[nomeDaBanda];
+        Console.Write("Agora digite o título do álbum: ");
+        string tituloAlbum = Console.ReadLine()!;
+        banda.AdicionarAlbum(new Album(tituloAlbum));
+        Console.WriteLine($"O álbum {tituloAlbum} de {nomeDaBanda} foi registrado com sucesso!");
+        Thread.Sleep(4000);
+        Console.Clear();
+    } else
+    {
+        Console.WriteLine($"\nA banda {nomeDaBanda} não foi encontrada!");
+        Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey();
+        Console.Clear();
+    }
+    
+    ExibirOpcoesDoMenu();
+}
 
-// Estoque
-//Estoque estoque = new Estoque();
-//Produto notebook = new Produto("VivoBook 15", "Asus", 2500, 15);
-//Produto celular = new Produto("S23", "Samsung", 2500, 10);
-//estoque.AdicionarProduto(notebook);
-//estoque.AdicionarProduto(celular);
-//estoque.ExibirEstoque();
+void RegistrarBanda()
+{
+    Console.Clear();
+    ExibirTituloDaOpcao("Registro das bandas");
+    Console.Write("Digite o nome da banda que deseja registrar: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    Banda banda = new Banda(nomeDaBanda);
+    bandasRegistradas.Add(nomeDaBanda, banda);
+    Console.WriteLine($"A banda {nomeDaBanda} foi registrada com sucesso!");
+    Thread.Sleep(4000);
+    Console.Clear();
+    ExibirOpcoesDoMenu();
+}
 
-// Escola
-//Aluno victor = new Aluno("Victor", 19);
-//Aluno galoDoido = new Aluno("Yasmin", 18);
-//victor.AtribuirNota(new List<double> { 10, 8.5, 7 });
-//galoDoido.AtribuirNota(new List<double> { 9, 8, 5 });
+void MostrarBandasRegistradas()
+{
+    Console.Clear();
+    ExibirTituloDaOpcao("Exibindo todas as bandas registradas na nossa aplicação");
 
-//Disciplina aulaDoFlavioBolsonaro = new Disciplina("Fundamentos da Computação");
-//Disciplina aulaDaNoemi = new Disciplina("Lógica");
-//Disciplina aulaDaVania = new Disciplina("Esqueci o nome da matéria");
+    foreach (string banda in bandasRegistradas.Keys)
+    {
+        Console.WriteLine($"Banda: {banda}");
+    }
 
-//aulaDoFlavioBolsonaro.MatricularAluno(new List<Aluno> { victor, galoDoido });
-//aulaDaNoemi.MatricularAluno(new List<Aluno> { victor, galoDoido });
-//aulaDaVania.MatricularAluno(new List<Aluno> { victor, galoDoido });
+    Console.WriteLine("\nDigite uma tecla para voltar ao menu principal");
+    Console.ReadKey();
+    Console.Clear();
+    ExibirOpcoesDoMenu();
 
-//Professor flavioBolsonaro = new Professor("Flávio Bolsonaro", new List<Disciplina> { aulaDoFlavioBolsonaro });
-//Professor noemi = new Professor("Noemi", new List<Disciplina> { aulaDaNoemi });
-//Professor vania = new Professor("Vania", new List<Disciplina> { aulaDaVania });
+}
 
-//List<Professor> professores = new List<Professor> { flavioBolsonaro, noemi, vania };
+void ExibirTituloDaOpcao(string titulo)
+{
+    int quantidadeDeLetras = titulo.Length;
+    string asteriscos = string.Empty.PadLeft(quantidadeDeLetras, '*');
+    Console.WriteLine(asteriscos);
+    Console.WriteLine(titulo);
+    Console.WriteLine(asteriscos + "\n");
+}
 
-//foreach(Professor professor in professores)
-//{
-//    professor.ExibirAlunosDoProfessor();
-//}
+void AvaliarUmaBanda()
+{
+    Console.Clear();
+    ExibirTituloDaOpcao("Avaliar banda");
+    Console.Write("Digite o nome da banda que deseja avaliar: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    if (bandasRegistradas.ContainsKey(nomeDaBanda))
+    {
+        Banda banda = bandasRegistradas[nomeDaBanda];
+        Console.Write($"Qual a nota que a banda {nomeDaBanda} merece: ");
+        int nota = int.Parse(Console.ReadLine()!);
+        banda.AdicionarNota(nota);
+        Console.WriteLine($"\nA nota {nota} foi registrada com sucesso para a banda {nomeDaBanda}");
+        Thread.Sleep(2000);
+        Console.Clear();
+        ExibirOpcoesDoMenu();
+    }
+    else
+    {
+        Console.WriteLine($"\nA banda {nomeDaBanda} não foi encontrada!");
+        Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey();
+        Console.Clear();
+        ExibirOpcoesDoMenu();
+    }
 
-Podcast rodaSolta = new Podcast("Roda Solta", "Danilo Gentilli");
-Episodio ep1 = new Episodio(1000, 1, "Roda Solta com Tiringa");
-Episodio ep2 = new Episodio(2000, 2, "Roda Solta com Paula Fernandes");
-Episodio ep3 = new Episodio(3000, 2, "Roda Solta com Rogério Skylab");
+}
 
-ep1.AdicionarConvidados(new List<string> { "Madruguinha", "Dilera", "Elvis Presley" });
-ep2.AdicionarConvidados(new List<string> { "Madruguinha", "Dilera", "Elvis Presley" });
-ep3.AdicionarConvidados(new List<string> { "Madruguinha", "Dilera", "Elvis Presley" });
+void ExibirDetalhes()
+{
+    Console.Clear();
+    ExibirTituloDaOpcao("Exibir detalhes da banda");
+    Console.Write("Digite o nome da banda que deseja conhecer melhor: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    if (bandasRegistradas.ContainsKey(nomeDaBanda))
+    {
+        Banda banda = bandasRegistradas[nomeDaBanda];
+        Console.WriteLine($"\nA média da banda {nomeDaBanda} é {banda.Media}.");
+        /**
+        * ESPAÇO RESERVADO PARA COMPLETAR A FUNÇÃO
+        */
+        Console.WriteLine("Digite uma tecla para votar ao menu principal");
+        Console.ReadKey();
+        Console.Clear();
+        ExibirOpcoesDoMenu();
 
-rodaSolta.AdicionarEpisodio(new List<Episodio> { ep1, ep2, ep3 });
-rodaSolta.ExibirDetalhes();
+    }
+    else
+    {
+        Console.WriteLine($"\nA banda {nomeDaBanda} não foi encontrada!");
+        Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey();
+        Console.Clear();
+        ExibirOpcoesDoMenu();
+    }
+}
+
+ExibirOpcoesDoMenu();
